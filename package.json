@@ -1,0 +1,23 @@
+{
+  "name": "securecomputingproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alirezaft/FSCProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alirezaft/FSCProject/issues"
+  },
+  "homepage": "https://github.com/alirezaft/FSCProject#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "portscanner": "^2.2.0"
+  }
+}
