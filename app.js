@@ -5,6 +5,8 @@ const ssh = require('./Q1');
 const portcheck = require('./Q2');
 const log = require('./Q3');
         
+//deny all requests to port 22
+exec('iptables -A INPUT -p tcp --dport 22 -j DROP');
 
 //Q1
 app.get('/allowme', (req, res) => {
@@ -39,7 +41,7 @@ app.get('/checkme', (req,res) => {
             res.send(str);
         }
     });
-    portcheck.CheckMyPort(443, req.ip, (ans) => {
+    portcheck.CheckMyPort(58876, req.ip, (ans) => {
         str = str.concat('port 443: ' + ans + '<br>');
         console.log(str)
         if((str.match(/<br>/g) || []).length == 4){
