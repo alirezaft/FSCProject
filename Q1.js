@@ -12,11 +12,10 @@ const addIP4SSH = (ip) => {
             }, 5)
         }, 5)
     });
-    exec('iptables -A INPUT -s ' + ip + ' -j ACCEPT', (err, stdout, stderr) => {
-    });
-    exec('iptables -A INPUT -p tcp --dport 22 -j DROP', (err, stdout, stderr) => {
-        
-    });
+    // exec('iptables -A INPUT -s ' + ip + ' -j ACCEPT', (err, stdout, stderr) => {
+    // });
+    // exec('iptables -A INPUT -p tcp --dport 22 -j DROP', (err, stdout, stderr) => {
+    // });
 }
 
 exports.addssh = addIP4SSH;
