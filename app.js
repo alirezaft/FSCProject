@@ -4,9 +4,14 @@ const app = express();
 const ssh = require('./Q1');
 const portcheck = require('./Q2');
 const log = require('./Q3');
+const { exec } = require('child_process');
+
+exec('ls', (err, stdout, stderr) => {
+    console.log(stdout);
+})
         
 //deny all requests to port 22
-exec('iptables -A INPUT -p tcp --dport 22 -j DROP');
+// exec('iptables -A INPUT -p tcp --dport 22 -j DROP');
 
 //Q1
 app.get('/allowme', (req, res) => {

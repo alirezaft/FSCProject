@@ -16,8 +16,12 @@ addToLog = (ip, userAgent, req) => {
         logj = JSON.parse(data);
     })
     console.log(logj);
-
-    let log = JSON.parse(logj);
+    let log;
+    if(logj != ''){
+        let log = JSON.parse(logj);
+    }else{
+        log = [];
+    }
     let dateobj = new Date();
     let day = dateobj.getDay();
     let month = dateobj.getMonth();
@@ -34,9 +38,14 @@ addToLog = (ip, userAgent, req) => {
         UserAgent : userAgent,
         Req: req
     });
+    console.log(log);
 
     fs.writeFile('log.json' ,JSON.stringify(log), (err) => {
-        console.log('CANNOT WRITE TO FILE!!!');
+        if(err){
+            console.log(err.code);
+        }else{
+            
+        }
     })
 }
 
