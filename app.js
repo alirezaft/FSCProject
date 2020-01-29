@@ -42,8 +42,8 @@ app.get('/checkme', (req,res) => {
             res.send(str);
         }
     });
-    portcheck.CheckMyPort(5353, req.ip, (ans) => {
-        str = str.concat('port 5353: ' + ans + '<br>');
+    portcheck.CheckMyPort(6463, req.ip, (ans) => {
+        str = str.concat('port 6463: ' + ans + '<br>');
         console.log(str)
         if((str.match(/<br>/g) || []).length == 4){
             res.send(str);
