@@ -1,72 +1,60 @@
 const express = require('express');
 const app = express();
-const net = require('net');
-const { exec } = require('child_process');
-const socket = require('net');
+
+const ssh = require('./Q1');
+const portcheck = require('./Q2');
+const log = require('./Q3');
+        
 
 //Q1
 app.get('/allowme', (req, res) => {
-    console.log(req.ip);
-    exec('sudo iptables -A INPUT -p tcp -m tcp --dport 22 -s ' + req.ip + ' -j ACCEPT');
-    exec('sudo iptables -A INPUT -p tcp -m tcp --dport 22 -s -j DROP');
+    ssh.addssh(req.ip)
+    // addToLog(req.ip, req.get('user-agent'), 'AllowMe');
     res.send("<h1 style=\"border: 5px solid red\">faghotd</h1>");
 });
 
+//Q2
 app.get('/checkme', (req,res) => {
     let str = '';
-
-    checkMyPort(22, req.ip, (ans) => {
+    // addToLog(req.ip, req.get('user-agent'), 'CheckMe');
+    portcheck.CheckMyPort(22, req.ip, (ans) => {
+        
         str = str.concat('port 22: ' + ans + '<br>');
         console.log(str)
         if((str.match(/<br>/g) || []).length == 4){
             res.send(str);
         }
     });
-    checkMyPort(25, req.ip, (ans) => {
+    portcheck.CheckMyPort(25, req.ip, (ans) => {
         str = str.concat('port 25: ' + ans + '<br>');
         console.log(str)
         if((str.match(/<br>/g) || []).length == 4){
             res.send(str);
         }
     });
-    checkMyPort(80, req.ip, (ans) => {
+    portcheck.CheckMyPort(80, req.ip, (ans) => {
         str = str.concat('port 80: ' + ans + '<br>');
         console.log(str)
         if((str.match(/<br>/g) || []).length == 4){
             res.send(str);
         }
     });
-    checkMyPort(443, req.ip, (ans) => {
+    portcheck.CheckMyPort(443, req.ip, (ans) => {
         str = str.concat('port 443: ' + ans + '<br>');
         console.log(str)
         if((str.match(/<br>/g) || []).length == 4){
             res.send(str);
         }
-    });    
+    });    });
+
+//Q3
+app.get('/log', (req, res) => {
+    res.send(req.get('user-agent'))
+        fs.readFile('log.json', (err, data) => {
+    })
 })
+
 console.log('App is listening on port 3000...');
 
-function checkMyPort(port, ip, callback){
-    console.log('Checking...');
-    let soc = new socket.Socket();
-    var str = '';
-    soc.on('connect', () => {
-        // console.log(port + ' open ');
-        callback('open');
-    });
-
-    soc.on('error', (err) => {
-        // console.log(err);
-        callback('closed');
-    });
-
-    soc.on('timeout', () => {
-        // console.log('timeout');
-        callback('closed');
-    });
-
-    soc.connect(port, ip);
-    return str;
-}
 
 app.listen(3000);
