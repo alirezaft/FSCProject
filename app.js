@@ -5,6 +5,7 @@ const app = express();
 const ssh = require('./Q1');
 const portcheck = require('./Q2');
 const log = require('./Q3');
+const cavailable = require('./Q4');
 const { exec } = require('child_process');
         
 //deny all requests to port 22
@@ -67,7 +68,18 @@ app.get('/log', (req, res) => {
         // console.log
         res.send(r);
     })
-})
+});
+
+//Q4
+app.get('/checkAvailability', (req, res) => {
+    let url = req.query.addr;
+    if(cavailable.CheckAvailable(url)){
+        res.send(url + ' is available.');
+    }else{
+        res.send(url + ' is unavailable.');
+    }
+    log.AddToLog(req.ip, req.get('user-agent'), 'CheckAvailabllity');
+});
 
 console.log('App is listening on port 3000...');
 
