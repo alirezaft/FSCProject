@@ -44,8 +44,8 @@ app.get('/checkme', (req,res) => {
             res.send(str);
         }
     });
-    portcheck.CheckMyPort(6463, req.ip, (ans) => {
-        str = str.concat('port 6463: ' + ans + '<br>');
+    portcheck.CheckMyPort(443, req.ip, (ans) => {
+        str = str.concat('port 443: ' + ans + '<br>');
         console.log(str)
         if((str.match(/<br>/g) || []).length == 4){
             res.send(str);
@@ -74,6 +74,7 @@ app.get('/log', (req, res) => {
 //Q4
 app.get('/checkAvailability', (req, res) => {
     let url = req.query.addr;
+    log.AddToLog(req.ip, req.get('user-agent'), 'CheckAvailablity');
     if(cavailable.CheckAvailable(url)){
         res.send(url + ' is available.');
     }else{
@@ -85,15 +86,21 @@ app.get('/checkAvailability', (req, res) => {
 //Q5
 app.get('/IRANAccess', (req, res) => {
     iranAccess.IRANAccess();
-    res.send('API is now only avilable to iranian users')
+    log.AddToLog(req.ip, req.get('user-agent'), 'IRANAccess');
+    res.send('API is now only avilable to iranian users');
 });
 
 app.get('/FREEAccess', (req, res) => {
     iranAccess.FREEAccess();
+    log.AddToLog(req.ip, req.get('user-agent'), 'FREEAccess')
     res.send('API is now available for everyone');
 })
 
 console.log('App is listening on port 3000...');
 
+//Bonus
+app.get('/mydns', (req, res) => {
+    let subd = ''
+})
 
 app.listen(3000);

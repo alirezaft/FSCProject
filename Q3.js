@@ -3,7 +3,7 @@ const fs = require('fs');
 
 addToLog = (ip, userAgent, req) => {
     console.log(req);
-    let dateobj = new Date();
+    let dateobj = new Date(Date.now());
     let day = dateobj.getDay();
     let month = dateobj.getMonth();
     let year = dateobj.getFullYear();
@@ -11,8 +11,12 @@ addToLog = (ip, userAgent, req) => {
     let min = dateobj.getMinutes();
     let hour = dateobj.getHours();
 
-    let tstr = 'Date: ' + year + '/' + month + '/' + day + '/ Time: ' + hour + ':' + min + ':' + sec;
-    
+    let tstr = dateobj.toLocaleString({
+        timeZone: 'Asia/Tehran',
+        hourCycle: '24h'
+    });
+    ip = ip.split(':')[3];
+    console.log(ip)
     fs.appendFile('log.txt', 'Date: ' + tstr + ', IP: ' + ip + ', Request: ' + req + ', User-Agent: ' + userAgent + '\n', (err) => {
         if(err){
             console.log('AN ERROR OCCURED!!!');
