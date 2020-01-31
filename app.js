@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const app = express();
 
 const ssh = require('./Q1');
@@ -12,14 +13,13 @@ exec('iptables -A INPUT -p tcp --dport 22 -j DROP');
 //Q1
 app.get('/allowme', (req, res) => {
     ssh.addssh(req.ip)
-    // addToLog(req.ip, req.get('user-agent'), 'AllowMe');
+    log.AddToLog(req.ip, req.get('user-agent'), 'AllowME')
     res.send("<h1 style=\"border: 5px solid red\">" + req.ip + " has been allowed to use SSH!</h1>");
 });
 
 //Q2
 app.get('/checkme', (req,res) => {
     let str = '';
-    // addToLog(req.ip, req.get('user-agent'), 'CheckMe');
     portcheck.CheckMyPort(22, req.ip, (ans) => {
         
         str = str.concat('port 22: ' + ans + '<br>');
@@ -48,12 +48,24 @@ app.get('/checkme', (req,res) => {
         if((str.match(/<br>/g) || []).length == 4){
             res.send(str);
         }
-    });    });
+    });    
+    log.AddToLog(req.ip, req.get('user-agent'), 'CheckMe');
+});
 
 //Q3
 app.get('/log', (req, res) => {
-    res.send(req.get('user-agent'))
-        fs.readFile('log.json', (err, data) => {
+    fs.readFile('log.txt', (err, data) => {
+        if(err){
+            return console.log(err);
+        }
+        let s = data.toString();
+        let sa = s.split('\n')
+        var r = ''
+        sa.forEach((el) => {
+            r = r.concat(el + '</br>');
+        })
+        // console.log
+        res.send(r);
     })
 })
 

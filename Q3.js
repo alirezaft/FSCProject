@@ -1,27 +1,8 @@
 const fs = require('fs');
 
-fs.exists('./log.json', (res) => {
-    if(!res){fs.appendFile('./log.json', JSON.stringify([]), (err) => {
-        console.log(err);
-    })}
-})
-
 
 addToLog = (ip, userAgent, req) => {
-    var logj = '';
-    fs.readFile('log.json', (err, data) => {
-        if(err){
-            return console.log('LOG FILE CANNOT BE OPENED!!!');
-        }
-        logj = JSON.parse(data);
-    })
-    console.log(logj);
-    let log;
-    if(logj != ''){
-        let log = JSON.parse(logj);
-    }else{
-        log = [];
-    }
+    console.log(req);
     let dateobj = new Date();
     let day = dateobj.getDay();
     let month = dateobj.getMonth();
@@ -31,22 +12,26 @@ addToLog = (ip, userAgent, req) => {
     let hour = dateobj.getHours();
 
     let tstr = 'Date: ' + year + '/' + month + '/' + day + '/ Time: ' + hour + ':' + min + ':' + sec;
-    console.log(tstr);
-    log.push({
-        IP : ip,
-        Time : tstr,
-        UserAgent : userAgent,
-        Req: req
-    });
-    console.log(log);
-
-    fs.writeFile('log.json' ,JSON.stringify(log), (err) => {
+    
+    fs.appendFile('log.txt', 'Date: ' + tstr + ', IP: ' + ip + ', Request: ' + req + ', User-Agent: ' + userAgent + '\n', (err) => {
         if(err){
-            console.log(err.code);
-        }else{
-            
+            console.log('AN ERROR OCCURED!!!');
+            return console.log(err);
         }
+    }); 
+}
+
+showLog = () => {
+    let str;
+    fs.readFile('log.txt', (err, data) => {
+        if(err){
+            console.log('AN ERROR OCCURED READING FILE!!!');
+            return console.log(err);
+        }
+        str = data;
     })
+    return str;
 }
 
 exports.AddToLog = addToLog;
+exports.ShowLog = showLog;
