@@ -6,10 +6,11 @@ const ssh = require('./Q1');
 const portcheck = require('./Q2');
 const log = require('./Q3');
 const cavailable = require('./Q4');
+const iranAccess = require('./Q5');
 const { exec } = require('child_process');
         
 //deny all requests to port 22
-exec('iptables -A INPUT -p tcp --dport 22 -j DROP');
+// exec('iptables -A INPUT -p tcp --dport 22 -j DROP');
 
 //Q1
 app.get('/allowme', (req, res) => {
@@ -80,6 +81,17 @@ app.get('/checkAvailability', (req, res) => {
     }
     log.AddToLog(req.ip, req.get('user-agent'), 'CheckAvailabllity');
 });
+
+//Q5
+app.get('/IRANAccess', (req, res) => {
+    iranAccess.IRANAccess();
+    res.send('API is now only avilable to iranian users')
+});
+
+app.get('/FREEAccess', (req, res) => {
+    iranAccess.FREEAccess();
+    res.send('API is now available for everyone');
+})
 
 console.log('App is listening on port 3000...');
 
