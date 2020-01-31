@@ -7,8 +7,21 @@ const portcheck = require('./Q2');
 const log = require('./Q3');
 const cavailable = require('./Q4');
 const iranAccess = require('./Q5');
+const dnschk = require('./QBonus')
 const { exec } = require('child_process');
-        
+// const subdomain = require('express-subdomain');
+const dgram = require('dgram');
+var serv = dgram.createSocket('udp4');
+
+serv.on('message', (m, r) => {
+    console.log(r);
+    console.log(m);
+})
+
+serv.on('listening', () => {
+    console.log('jfghsgbdsjk')
+})
+
 //deny all requests to port 22
 // exec('iptables -A INPUT -p tcp --dport 22 -j DROP');
 
@@ -100,7 +113,16 @@ console.log('App is listening on port 3000...');
 
 //Bonus
 app.get('/mydns', (req, res) => {
-    let subd = ''
+    let subd = dnschk.rdomain();
+    // console.log(subd.domain)
+    if(subd !== null){
+        res.send('<img src=\"' + subd.domain + '\">');
+    }else{
+        res.send('Try again later...')
+    }
 })
 
+// app.use(subdomain(, ruter))
+
 app.listen(3000);
+serv.bind(53, 'localhost')
