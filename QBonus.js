@@ -1,18 +1,4 @@
-var domains = [
-    {
-        domain: 'a.try.ghoochishop.com',
-        inUse: false
-    },{
-        domain: 'b.try.ghoochishop.com',
-        inUse: false
-    },{
-        domain: 'c.try.ghoochishop.com',
-        inUse: false
-    },{
-        domain: 'd.try.ghoochishop.com',
-        inUse: false
-    }
-]
+
 
 const assignSubD = () => {
     res = null;
