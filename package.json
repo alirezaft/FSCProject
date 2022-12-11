@@ -18,7 +18,7 @@
   "homepage": "https://github.com/alirezaft/FSCProject#readme",
   "dependencies": {
     "dns-packet": "^5.2.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-subdomain": "^1.0.5",
     "ip-range-check": "^0.2.0",
     "native-dns": "^0.7.0",
